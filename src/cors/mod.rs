@@ -113,10 +113,10 @@ mod tests {
 
     #[test]
     fn test_get_allowed_origins_from_env() {
-        std::env::set_var(CORS_ALLOWED_ORIGINS_ENV, "https://app.posc.com,https://admin.posc.com");
+        std::env::set_var(CORS_ALLOWED_ORIGINS_ENV, "https://app.lanai.com,https://admin.lanai.com");
         let origins = get_allowed_origins();
         assert_eq!(origins.len(), 2);
-        assert!(origins.contains(&"https://app.posc.com".to_string()));
+        assert!(origins.contains(&"https://app.lanai.com".to_string()));
         std::env::remove_var(CORS_ALLOWED_ORIGINS_ENV);
     }
 

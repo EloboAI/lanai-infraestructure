@@ -49,7 +49,7 @@ impl Default for NatsConfig {
             max_reconnects: 0, // Infinite
             reconnect_delay: Duration::from_millis(500),
             max_reconnect_delay: Duration::from_secs(30),
-            connection_name: "posc-service".to_string(),
+            connection_name: "lanai-service".to_string(),
         }
     }
 }
@@ -213,7 +213,7 @@ mod tests {
 
     #[test]
     fn test_service_config() {
-        let config = NatsConfig::for_service("posc-inventory-service");
-        assert_eq!(config.connection_name, "posc-inventory-service");
+        let config = NatsConfig::for_service("lanai-inventory-service");
+        assert_eq!(config.connection_name, "lanai-inventory-service");
     }
 }

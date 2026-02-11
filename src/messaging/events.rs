@@ -3,7 +3,8 @@ use uuid::Uuid;
 use rust_decimal::Decimal;
 
 /// Base trait for all Lanai events
-pub trait PoscEvent {
+/// Base trait for all Lanai events
+pub trait LanaiEvent {
     fn subject(&self) -> String;
 }
 
@@ -15,9 +16,9 @@ pub struct ProductCreatedEvent {
     pub description: Option<String>,
 }
 
-impl PoscEvent for ProductCreatedEvent {
+impl LanaiEvent for ProductCreatedEvent {
     fn subject(&self) -> String {
-        format!("posc.inventory.product.created.{}", self.org_id)
+        format!("lanai.inventory.product.created.{}", self.org_id)
     }
 }
 
@@ -65,8 +66,8 @@ pub struct ReturnItemEvent {
     pub inventory_action: String, // RESTOCK, QUARANTINE, DISPOSE
 }
 
-impl PoscEvent for ReturnCompletedEvent {
+impl LanaiEvent for ReturnCompletedEvent {
     fn subject(&self) -> String {
-        format!("posc.sales.return.completed.{}", self.org_id)
+        format!("lanai.sales.return.completed.{}", self.org_id)
     }
 }
