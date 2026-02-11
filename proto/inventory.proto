@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package inventory;
+
+service InventoryService {
+    // Synchronous stock check and reservation for Saga
+    rpc GetStock (GetStockRequest) returns (GetStockResponse);
+    rpc ReserveStock (ReserveStockRequest) returns (ReserveStockResponse);
+    rpc GetSettings (GetSettingsRequest) returns (GetSettingsResponse);
+}
+
+message GetStockRequest {
+    string org_id = 1;
+    string product_id = 2;
+}
+
+message GetStockResponse {
+    string product_id = 1;
+    int32 quantity = 2;
+    int32 reserved = 3;
+}
+
+message StockItem {
+    string product_id = 1;
+    int32 quantity = 2;
+}
+
+message ReserveStockRequest {
+    string order_id = 1;
+    string org_id = 2;
+    repeated StockItem items = 3;
+}
+
+message ReserveStockResponse {
+    bool success = 1;
+    string error_message = 2;
+}
+
+message GetSettingsRequest {
+    string org_id = 1;
+}
+
+message GetSettingsResponse {
+    string org_id = 1;
+    double variance_threshold = 2;
+    double manager_override_refund_threshold = 3;
+    bool require_blind_count = 4;
+}
