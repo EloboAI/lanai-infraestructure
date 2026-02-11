@@ -100,10 +100,12 @@ where
             let token = match extract_token_from_request(&req) {
                 Some(token) => token,
                 None => {
+                    warn!("Authentication failed: Missing token for path: {}", req.path());
                     return Ok(req.into_response(
                         HttpResponse::Unauthorized()
                             .json(serde_json::json!({
-                                "error": "Missing authentication token"
+                                "error": "Missing authentication token",
+                                "code": "AUTH_MISSING_TOKEN"
                             }))
                     ).map_into_boxed_body());
                 }
@@ -120,11 +122,12 @@ where
                     Ok(res.map_into_boxed_body())
                 }
                 Err(e) => {
-                    warn!("Token validation failed: {}", e);
+                    warn!("Token validation failed for path {}: {}", req.path(), e);
                     Ok(req.into_response(
                         HttpResponse::Unauthorized()
                             .json(serde_json::json!({
-                                "error": "Invalid or expired token"
+                                "error": format!("Invalid or expired token: {}", e),
+                                "code": "AUTH_INVALID_TOKEN"
                             }))
                     ).map_into_boxed_body())
                 }
