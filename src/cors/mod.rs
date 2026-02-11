@@ -71,9 +71,16 @@ pub fn create_cors() -> Cors {
         .supports_credentials()
         .max_age(3600);
 
-    // Add each allowed origin
-    for origin in allowed_origins {
-        cors = cors.allowed_origin(&origin);
+    // Check for wildcard
+    let has_wildcard = allowed_origins.iter().any(|o| o == "*") || allowed_origins.is_empty(); // Empty check logic matches original "dev default" or implicit wildcard if desire
+
+    if has_wildcard {
+        cors = cors.allow_any_origin();
+    } else {
+        // Add each allowed origin
+        for origin in allowed_origins {
+            cors = cors.allowed_origin(&origin);
+        }
     }
 
     cors
